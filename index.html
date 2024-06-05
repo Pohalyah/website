@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width-device-width, initial-scale=1.0">
+    <title>TEST SERVER</title>
+    <link rel="stylesheet" href="test.css">
+
+    
+
+  </head>
+  <body>
+    <header>
+      <h2 class="logo">Accueil</h2>
+      <nav class="navigation">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+        <button class="bouton-login">Connexion</button>
+      </nav>
+  </header>
+
+  <div class="wrapper">
+    <span class="icon-close"><ion-icon name="close-circle-sharp"></ion-icon></span>
+
+    <div class="form-box login"> 
+      <h2>Connexion</h2>
+      <form action="connect.php" method="post">
+        <!--<div class="input-box">
+          <span class="icon"><ion-icon name="mail"></ion-icon></span>
+          <input type="email" required name="email">
+          <label>Email</label>
+          </div>-->
+          <div class="input-box"> 
+            <span class="icon"><ion-icon name="person-sharp"></ion-icon></ion-icon></span>
+            <input type="text" required name="username">
+            <label>Nom d'utilisateur</label>
+            </div>
+            <div class="input-box">
+            <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+            <input type="password" required name="password">
+            <label>Mot de passe</label>
+          </div>
+          <!--<div class="remember-forgot">
+            <label><input type="checkbox">Se souvenir de moi</label>
+            <a href="#"> Mot de passe oublié ?</a>
+          </div>-->
+          <button type="submit" class="btn" name="signIn">Se connecter</button>
+          <div class="login-register">
+            <!--<p>Pas de compte ?<a href="#" class="register-link">S'inscrire</a></p>-->
+          </div>
+      </form>
+    </div>
+<!--
+    <div class="form-box register">
+      <h2>Inscription</h2> 
+      <form action="register.php">
+        <div class="input-box"> 
+          <span class="icon"><ion-icon name="person-sharp"></ion-icon></ion-icon></span>
+          <input type="text" required name="username">
+          <label>Nom d'utilisateur</label>
+          </div>
+        <div class="input-box">
+          <span class="icon"><ion-icon name="mail"></ion-icon></span>
+          <input type="email" required name="email">
+          <label>Email</label>
+          </div>
+            <div class="input-box">
+            <span class="icon"><ion-icon name="lock-closed"></ion-icon></span>
+            <input type="password" required name="password">
+            <label>Mot de passe</label>
+          </div>
+          <div class="remember-forgot">
+          </div>
+          <button type="submit" class="btn" name="signUp">S'enregistrer</button>
+          <div class="login-register">
+            <p>Déjà un compte ?<a href="#" class="login-link">Se connecter</a></p>
+          </div>
+      </form>-->
+    </div>
+  </div>
+
+
+
+
+    <script src="test.js">
+
+    </script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  </body>
+</html>
