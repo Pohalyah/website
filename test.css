@@ -75,7 +75,28 @@ header{
     border-radius:30px;
 }
 
+.bouton-logout{
+    width: 130px;
+    height: 40px;
+    background-color: transparent;
+    border: 2px solid white;
+    outline: none;
+    border-radius: 6px;
+    cursor:pointer;
+    margin-left:30px;
+    font-size:1.1em;
+    color:rgb(255, 255, 255);
+    font-weight: 500;
+    transition: .5s;
+    border-radius:30px;
+}
+
 .navigation .bouton-login:hover{
+    background-color: white;
+    color: black;
+}
+
+.navigation .bouton-logout:hover{
     background-color: white;
     color: black;
 }
