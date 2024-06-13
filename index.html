@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TEST SERVER</title>
-    <link rel="stylesheet" href="test.css">
-
+    <title>Bienvenue</title>
     
+    <link rel="stylesheet" href="test.css">
 
   </head>
   <body>
     <header>
-      <h2 class="logo">Server TEST</h2>
+      <h2 class="logo">Page de Connexion</h2>
       <nav class="navigation">
         <button class="bouton-login">Connexion</button>
       </nav>
@@ -39,40 +38,65 @@
     </div>
     </div>
 
-    <script> 
-    function checkConnexionInfos(username,password){
+    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-database-compat.js"></script>
 
-    fetch('database.json')
-        .then(response => {
-          if(!response.ok){
-            throw new Error('Erreur de chargement');
-          }
-          return response.json();
-        })
-        .then(data=>{
-          const userFound = data.find(user=> user.username === username && user.password === password);
-          if (userFound){
-            console.log('Authentification réussie');
-            localStorage.setItem('utilisateurConnecte', JSON.stringify(userFound));
-            window.location.href = 'homepage.html';
+    <script>
+    // Initialize Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyASDFQ3PARlE_AUK43jsa5dadcupRFwnrg",
+      authDomain: "websitedb-jc.firebaseapp.com",
+      databaseURL: "https://websitedb-jc-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "websitedb-jc",
+      storageBucket: "websitedb-jc.appspot.com",
+      messagingSenderId: "284052306058",
+      appId: "1:284052306058:web:d1a072d0f0972392355573",
+  };
 
-          }else{
-            console.log('Nom ou mot de passe incorrect');
+  firebase.initializeApp(firebaseConfig);
 
-          }
-        })
-        .catch(error=>{
-          console.error('Erreur lors du chargement',error);
+        const auth = firebase.auth();
+        const database = firebase.database();
+
+        // Function to handle user authentication
+        async function signInWithUsernameAndPassword(username, password) {
+            try {
+                // Fetch users from Realtime Database
+                const snapshot = await firebase.database().ref('users').once('value');
+                const users = snapshot.val();
+
+                // Find user by username
+                let user = null;
+                for (let key in users) {
+                  
+                    if (users[key].username === username && users[key].password === password) {
+                        user = users[key];
+                        break;
+                    }
+                }
+
+                if (user) {
+                    console.log('Authentification réussie pour l\'utilisateur:', user);
+                    localStorage.setItem('utilisateurConnecte', JSON.stringify(user));
+                    window.location.href = 'homepage.html';
+                } else {
+                    throw new Error('Nom ou mot de passe incorrect');
+                }
+            } catch (error) {
+                console.error('Erreur lors de l\'authentification:', error.message);
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Authenticate user with Firebase using username and password
+            signInWithUsernameAndPassword(username, password);
         });
-      }
-
-  document.getElementById('login-form').addEventListener('submit', function(event) {
-    event.preventDefault(); 
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    checkConnexionInfos(username, password); 
-});
-
     </script>
 
     <script type="module" src="test.js"></script>

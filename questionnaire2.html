@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionnaire</title>
+
+    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-database-compat.js"></script>
+    <script>
+      const firebaseConfig = {
+          apiKey: "AIzaSyASDFQ3PARlE_AUK43jsa5dadcupRFwnrg",
+          authDomain: "websitedb-jc.firebaseapp.com",
+          databaseURL: "https://websitedb-jc-default-rtdb.europe-west1.firebasedatabase.app",
+          projectId: "websitedb-jc",
+          storageBucket: "websitedb-jc.appspot.com",
+          messagingSenderId: "284052306058",
+          appId: "1:284052306058:web:d1a072d0f0972392355573"
+      };
+      
+      const app = firebase.initializeApp(firebaseConfig);
+      const database = firebase.database(app);
+  </script>
+    <link rel="stylesheet" href="test.css">
+</head>
+    <body>
+        <header>
+            <h2 class="logo">Questionnaire 2/3</h2>
+            <nav class="navigation">
+                <a href="homepage.html">Accueil</a>
+              <button class="bouton-logout" id="bouton-deconnexion">Déconnexion</button>
+            </nav>
+          </header>
+          <div class="form-formulaire"> 
+            <h2 class="questionnaire-text">Évaluation des attitudes professionnelles</h2>
+            <form id="formulaire2">
+                <fieldset class="input-box4">
+                    <legend class="input-box4-label">Ponctualité</legend>
+                    <div class="radio-group">
+
+                        <input type="radio" id="ponctuel" name="Ponctualité" value="ponctuel">
+                        <label for="ponctuel">Ponctuel</label>
+
+                        <input type="radio" id="retards-exceptionnels" name="Ponctualité" value="retards exceptionnels">
+                        <label for="retards-exceptionnels">Retards exceptionnels</label>
+
+                        <input type="radio" id="retards-repetes" name="Ponctualité" value="retards répétés">
+                        <label for="retards-repetes">Retards répétés</label>
+
+                    </div>
+                </fieldset>
+                <fieldset class="input-box5">
+                  <legend class="input-box5-label">Assiduité</legend>
+                  <div class="radio-group">
+
+                    <input type="radio" id="assiduitetjrpresent" name="Assiduité" value="toujours présent">
+                    <label for="assiduitetjrpresent">Toujours présent</label>
+        
+                    <input type="radio" id="assiduiteqlqabsjstf" name="Assiduité" value="quelques absences justifiées">
+                    <label for="assiduiteqlqabsjstf">Quelques absences justifiées</label>
+        
+                    <input type="radio" id="assiduiteabsjstf" name="Assiduité" value="absences justifiées">
+                    <label for="assiduiteabsjstf">Des absences justifiées</label>
+
+                  </div>
+              </fieldset>
+              <div class="input-boxjourabs">
+                <input type="text" id="nombreabs" name="Nombre de jours d'absence" maxlength="4">
+                <label class="nombreabs-input" for="nombreabs">Nombre de jours d'absence</label>
+              </div>
+              <fieldset class="input-box6">
+                <legend class="input-box6-label">Intérêt porté au travail</legend>
+                <div class="radio-group">
+                  <input type="radio" id="interetbon" name="Intérêt" value="bon">
+                  <label for="interetbon">Bon</label>
+                  <input type="radio" id="interetmoyen" name="Intérêt" value="moyen">
+                  <label for="interetmoyen">Moyen</label>
+                  <input type="radio" id="interetaucun" name="Intérêt" value="aucun">
+                  <label for="interetaucun">Aucun</label>
+                </div>
+            </fieldset>
+            <fieldset class="input-box7">
+              <legend class="input-box7-label">Esprit d'initiative</legend>
+              <div class="radio-group">
+                  <input type="radio" id="initiativebon" name="Initiative" value="bon">
+                  <label for="initiativebon">Bon</label>
+                  <input type="radio" id="initiativemoyen" name="Initiative" value="moyen">
+                  <label for="initiativemoyen">Moyen</label>
+                  <input type="radio" id="initiativeaucun" name="Initiative" value="aucun">
+                  <label for="initiativeaucun">Aucun</label>
+              </div>
+          </fieldset>
+                <button type="submit" class="btn3">Page suivante</button>
+            </form>
+          </div>
+
+    <script src="verif-connection.js"></script>
+    <script src="test2.js"></script>
+    <script src="sauvegarde-questionnaire.js"></script>
+
+
+    </body>
+
+</html>

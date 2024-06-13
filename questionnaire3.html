@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionnaire</title>
+
+
+    <link rel="stylesheet" href="test.css">
+</head>
+    <body>
+        <header>
+            <h2 class="logo">Questionnaire 3/3</h2>
+            <nav class="navigation">
+                <a href="homepage.html">Accueil</a>
+              <button class="bouton-logout" id="bouton-deconnexion">Déconnexion</button>
+            </nav>
+          </header>
+          <div class="form-formulaire"> 
+            <h2 class="questionnaire-text">Évaluation des attitudes professionnelles 2</h2>
+            <form id="formulaire3">
+              <fieldset class="input-box8">
+                  <legend class="input-box8-label">Sens de l'organisation</legend>
+                  <div class="radio-group">
+                      <input type="radio" id="organisationbon" name="Organisation" value="bon">
+                      <label for="bon">Bon</label>
+                      <input type="radio" id="organisationmoyen" name="Organisation" value="moyen">
+                      <label for="moyen">Moyen</label>
+                      <input type="radio" id="organisationaucun" name="Organisation" value="aucun">
+                      <label for="aucun">Aucun</label>
+                  </div>
+              </fieldset>
+              <fieldset class="input-box9">
+                  <legend class="input-box9-label">Compréhension</legend>
+                  <div class="radio-group">
+                      <input type="radio" id="comprehensionbonne" name="Compréhension" value="bonne">
+                      <label for="bonne">Bonne</label>
+                      <input type="radio" id="comprehensionmoyenne" name="Compréhension" value="moyenne">
+                      <label for="moyenne">Moyenne</label>
+                      <input type="radio" id="comprehensionaucune" name="Compréhension" value="aucune">
+                      <label for="aucune">Aucune</label>
+                  </div>
+              </fieldset>
+              <fieldset class="input-box10">
+                  <legend class="input-box10-label">Qualité du travail</legend>
+                  <div class="radio-group">
+                      <input type="radio" id="qualitebonne" name="Qualité" value="bonne">
+                      <label for="bonne">Bonne</label>
+                      <input type="radio" id="qualitemoyenne" name="Qualité" value="moyenne">
+                      <label for="moyenne">Moyenne</label>
+                      <input type="radio" id="qualiteaucune" name="Qualité" value="aucune">
+                      <label for="aucune">Aucune</label>
+                  </div>
+              </fieldset>
+              <fieldset class="input-box11">
+                  <legend class="input-box11-label">Intégration dans l'équipe</legend>
+                  <div class="radio-group">
+                      <input type="radio" id="integrationbonne" name="Intégration" value="bonne">
+                      <label for="bonne">Bonne</label>
+                      <input type="radio" id="integrationmoyenne" name="Intégration" value="moyenne">
+                      <label for="moyenne">Moyenne</label>
+                      <input type="radio" id="integrationaucune" name="Intégration" value="aucune">
+                      <label for="aucune">Aucune</label>
+                  </div>
+              </fieldset>
+              <button type="submit" class="btn4">Envoyer les réponses</button>
+          </form>
+          
+          </div>
+
+    <script src="verif-connection.js"></script>
+    <script src="test2.js"></script>
+    <script src="sauvegarde-questionnaire.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-database-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+          apiKey: "AIzaSyASDFQ3PARlE_AUK43jsa5dadcupRFwnrg",
+          authDomain: "websitedb-jc.firebaseapp.com",
+          databaseURL: "https://websitedb-jc-default-rtdb.europe-west1.firebasedatabase.app",
+          projectId: "websitedb-jc",
+          storageBucket: "websitedb-jc.appspot.com",
+          messagingSenderId: "284052306058",
+          appId: "1:284052306058:web:d1a072d0f0972392355573",
+        };
+      
+        console.log("Initialisation de Firebase");
+    firebase.initializeApp(firebaseConfig);
+    const databaseRef = firebase.database().ref();
+console.log("Database reference created:", databaseRef);
+
+    const database = firebase.database();
+
+    if (!firebase) {
+  console.error("Firebase n'a pas été initialisé correctement");
+} else {
+  console.log("Firebase a été initialisé avec succès");
+}
+
+
+document.getElementById('formulaire1').addEventListener('submit', function(event) {
+  event.preventDefault(); 
+  console.log("Form submit event triggered");
+  console.log("Form submission started");
+
+  const questionnaireData = {};
+  const formData = new FormData(event.target);
+  formData.forEach((value, key) => {
+    questionnaireData[key] = value;
+
+
+  });
+  console.log("Form data collected:", questionnaireData);
+
+  const newPostRef = database.ref('questionnaires').push();
+  console.log("New post reference created:", newPostRef);
+
+  newPostRef.set(questionnaireData)
+    .then(() => {
+      console.log("Data saved successfully with key:", newPostRef.key);
+      alert('Questionnaire soumis avec succès !');
+
+
+      setTimeout(() => {
+        window.location.href = 'confirmation.html';
+      }, 1000);
+    })
+    .catch((error) => {
+      console.error('Erreur lors de la soumission du questionnaire : ', error);
+    });
+});
+
+
+
+    window.onload = function() {
+      const questionnaireData = JSON.parse(localStorage.getItem('questionnaireData'));
+
+      if (questionnaireData) {
+        Object.keys(questionnaireData).forEach(key => {
+          const input = document.querySelector(`[name="${key}"]`);
+          if (input) {
+            if (input.type === 'radio') {
+              if (input.value === questionnaireData[key]) {
+                input.checked = true;
+              }
+            } else {
+              input.value = questionnaireData[key];
+            }
+          }
+        });
+      }
+    }
+
+      </script>
+
+    </body>
+
+</html>
