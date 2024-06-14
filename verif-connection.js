@@ -1,24 +1,72 @@
-function verifierConnexion(){
+function verifierConnexion() {
     const utilisateurConnecte = JSON.parse(localStorage.getItem('utilisateurConnecte'));
 
-    if (!utilisateurConnecte){
+    if (!utilisateurConnecte) {
         window.location.href = 'index.html';
     } else {
         console.log(`Bienvenue, ${utilisateurConnecte.username}`);
     }
 }
 
-function chargerQuestionnaire() {
-    const questionnaireData = JSON.parse(localStorage.getItem('questionnaireData'));
+function getCurrentUserId() {
+    const utilisateurConnecte = JSON.parse(localStorage.getItem('utilisateurConnecte'));
+    return utilisateurConnecte ? utilisateurConnecte.userId : null;
+}
 
-    if (questionnaireData) {
-        Object.keys(questionnaireData).forEach(key => {
+function chargerQuestionnaire() {
+    const userId = getCurrentUserId();
+    const questionnaireData1 = JSON.parse(localStorage.getItem(`questionnaireData1_${userId}`));
+    const questionnaireData2 = JSON.parse(localStorage.getItem(`questionnaireData2_${userId}`));
+    const questionnaireData3 = JSON.parse(localStorage.getItem(`questionnaireData3_${userId}`));
+
+    
+    if (questionnaireData1) {
+        Object.keys(questionnaireData1).forEach(key => {
             const input = document.querySelector(`[name="${key}"]`);
             if (input) {
-                input.value = questionnaireData[key];
+                if (input.type === 'radio') {
+                    if (input.value === questionnaireData1[key]) {
+                        input.checked = true;
+                    }
+                } else {
+                    input.value = questionnaireData1[key];
+                }
+            }
+        });
+    }
+
+    if (questionnaireData2) {
+        Object.keys(questionnaireData2).forEach(key => {
+            const input = document.querySelector(`[name="${key}"]`);
+            if (input) {
+                if (input.type === 'radio') {
+                    if (input.value === questionnaireData2[key]) {
+                        input.checked = true;
+                    }
+                } else {
+                    input.value = questionnaireData2[key];
+                }
+            }
+        });
+    }
+
+    if (questionnaireData3) {
+        Object.keys(questionnaireData3).forEach(key => {
+            const input = document.querySelector(`[name="${key}"]`);
+            if (input) {
+                if (input.type === 'radio') {
+                    if (input.value === questionnaireData3[key]) {
+                        input.checked = true;
+                    }
+                } else {
+                    input.value = questionnaireData3[key];
+                }
             }
         });
     }
 }
 
-window.onload = verifierConnexion;
+window.onload = function() {
+    verifierConnexion();
+    chargerQuestionnaire();
+};

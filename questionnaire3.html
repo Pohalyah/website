@@ -100,10 +100,8 @@ console.log("Database reference created:", databaseRef);
 }
 
 
-document.getElementById('formulaire1').addEventListener('submit', function(event) {
+document.getElementById('formulaire1','formulaire2').addEventListener('submit', function(event) {
   event.preventDefault(); 
-  console.log("Form submit event triggered");
-  console.log("Form submission started");
 
   const questionnaireData = {};
   const formData = new FormData(event.target);

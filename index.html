@@ -59,14 +59,13 @@
         const auth = firebase.auth();
         const database = firebase.database();
 
-        // Function to handle user authentication
+
         async function signInWithUsernameAndPassword(username, password) {
             try {
-                // Fetch users from Realtime Database
+
                 const snapshot = await firebase.database().ref('users').once('value');
                 const users = snapshot.val();
 
-                // Find user by username
                 let user = null;
                 for (let key in users) {
                   
@@ -88,7 +87,7 @@
             }
         }
 
-        // Handle form submission
+
         document.getElementById('login-form').addEventListener('submit', function(event) {
             event.preventDefault();
             const username = document.getElementById('username').value;
