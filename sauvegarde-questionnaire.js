@@ -5,20 +5,40 @@ document.addEventListener('DOMContentLoaded', function() {
       localStorage.setItem(`${formId}_${userId}`, JSON.stringify(questionnaireData));
   }
 
+  async function getNextQuestionnaireId() {
+    try {
+        const snapshot = await firebase.database().ref('lastQuestionnaireId').once('value');
+        let lastId = snapshot.val();
+
+        if (lastId === null) {
+            lastId = 0;
+        }
+
+        const nextId = lastId + 1;
+        await firebase.database().ref('lastQuestionnaireId').set(nextId);
+
+        return nextId.toString().padStart(5, '0'); 
+    } catch (error) {
+        console.error('Error getting next questionnaire ID:', error);
+        throw error;
+    }
+}
+
   async function saveToFirebase(combinedData) {
       try {
-          const database = firebase.database();
-          const newPostRef = database.ref('questionnaires').push();
+        const database = firebase.database();
+        const questionnaireId = await getNextQuestionnaireId();
 
-          await newPostRef.set(combinedData);
-          console.log("Data saved successfully with key:", newPostRef.key);
+        const newPostRef = database.ref(`questionnaires/${questionnaireId}`);
+        await newPostRef.set(combinedData);
+        console.log("Data saved successfully with key:", questionnaireId);
 
-          return true;
-      } catch (error) {
-          console.error('Error saving data:', error);
-          return false;
-      }
-  }
+        return true;
+    } catch (error) {
+        console.error('Error saving data:', error);
+        return false;
+    }
+}
 
   const formulaire1 = document.getElementById('formulaire1');
   if (formulaire1) {
@@ -32,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
               questionnaireData1[key] = value;
           });
 
+          localStorage.setItem('lastCompletedPage','page1')
           saveToLocalStorage('questionnaireData1', questionnaireData1);
           window.location.href = 'questionnaire2.html';
       });
@@ -48,8 +69,9 @@ document.addEventListener('DOMContentLoaded', function() {
           formData.forEach((value, key) => {
               questionnaireData2[key] = value;
           });
-
+          localStorage.removeItem('page1');
           saveToLocalStorage('questionnaireData2', questionnaireData2);
+          localStorage.setItem('lastCompletedPage', 'page2');
           window.location.href = 'questionnaire3.html';
       });
   }
@@ -74,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
               ...questionnaireData2,
               ...questionnaireData3
           };
-
+          localStorage.removeItem('lastCompletedPage')
           saveToLocalStorage('questionnaireData3', questionnaireData3);
           await saveToFirebase(combinedData);
 

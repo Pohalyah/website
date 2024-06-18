@@ -1,33 +1,208 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Page d'accueil</title>
     <link rel="stylesheet" href="test.css">
+    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-database-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
-    <body>
-        <header>
-            <h2 class="logo">Accueil</h2>
-            <nav class="navigation">
-              <a href="questionnaire1.html">Répondre au questionnaire</a>
-              <button class="bouton-logout" id="bouton-deconnexion">Déconnexion</button>
-            </nav>
-          </header>
+<body>
+    <header>
+        <h2 class="logo">Accueil</h2>
+        <nav class="navigation">
+            <a href="questionnaire1.html">Répondre au questionnaire</a>
+            <button class="bouton-logout" id="bouton-deconnexion">Déconnexion</button>
+        </nav>
+    </header>
 
-            <div class="wrapper2">
-              
+    <div class="wrapper2" id="form-previews">
+      <div class="wrapper2-head">Formulaires complétés</div>
+
+    </div>
+
+    <div class="wrapper3" id="form-unfinished">
+      <div class="wrapper3-head">Formulaire en cours</div>
+
+    </div>
+
+    <script>
+        const firebaseConfig = {
+          apiKey: "AIzaSyASDFQ3PARlE_AUK43jsa5dadcupRFwnrg",
+          authDomain: "websitedb-jc.firebaseapp.com",
+          databaseURL: "https://websitedb-jc-default-rtdb.europe-west1.firebasedatabase.app",
+          projectId: "websitedb-jc",
+          storageBucket: "websitedb-jc.appspot.com",
+          messagingSenderId: "284052306058",
+          appId: "1:284052306058:web:d1a072d0f0972392355573"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        async function getFormData() {
+            try {
+                const snapshot = await database.ref('questionnaires').once('value');
+                const data = snapshot.val();
+                return data;
+            } catch (error) {
+                console.error("Error retrieving data from Firebase:", error);
+            }
+        }
+
+            function formatDate(dateString) {
+        const [year, month, day] = dateString.split('-');
+        return `${day}-${month}-${year}`;
+}
+
+            function generatePDF(data, key, order) {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+
+        let yPosition = 10;
+        doc.text(`Questionnaire ID: ${key}`, 10, yPosition);
+        yPosition += 10;
+
+        order.forEach(field => {
+        if (data[field] !== undefined) {
+            let fieldValue = data[field];
+
+            if (/^\d{4}-\d{2}-\d{2}$/.test(fieldValue)) {
+                fieldValue = formatDate(fieldValue);
+            }
+
+            doc.text(`${field}: ${fieldValue}`, 10, yPosition);
+            yPosition += 10;
+        }
+    });
+
+        const pdfBlob = doc.output('blob');
+        const blobUrl = URL.createObjectURL(pdfBlob);
+        window.open(blobUrl);
+
+        setTimeout(() => {
+            URL.revokeObjectURL(blobUrl);
+        }, 10000);
+}
 
 
-              
-            </div>>
+        async function displayFormPreviews() {
+            const data = await getFormData();
+            const formPreviewsDiv = document.getElementById('form-previews');
+
+            if (!data) {
+                formPreviewsDiv.innerHTML = '<p class="text-error">Aucun formulaire disponible.</p>';
+                return;
+            }
+
+            Object.entries(data).forEach(([key, formData]) => {
+                const formPreviewDiv = document.createElement('div');
+                formPreviewDiv.classList.add('form-preview');
 
 
-<script>console.log(localStorage)</script>
-    <script src="verif-connection.js"></script>
-    <script src="test2.js"></script>
+                const previewHtml = `
+                    <p><strong>Élève:</strong> ${formData["Nom de l'élève"] || 'N/A'}</p>
+                    <p><strong>Entreprise:</strong> ${formData["Nom de l'entreprise"] || 'N/A'}</p>
+                    <button class ="buttonpdf" onclick='generatePDFById("${key}")'>Prévisualiser PDF</button>
+                `;
+                formPreviewDiv.innerHTML = previewHtml;
 
-    </body>
+                formPreviewsDiv.appendChild(formPreviewDiv);
+            });
+        }
 
+        function generatePDFById(key) {
+    const order = [
+        "Questionnaire ID",
+        "Nom de l'élève",
+        "Nom du professeur",
+        "Nom de l'entreprise",
+        "Nom du tuteur",
+        "Date de début du stage",
+        "Date de fin du stage",
+        "Ponctualité",
+        "Assiduité",
+        "Nombre de jours d'absence",
+        "Intérêt porté au travail",
+        "Esprit d'initiative",
+        "Sens de l'organisation",
+        "Compréhension",
+        "Qualité du travail",
+        "Intégration dans l'équipe",
+    ];
+
+    database.ref(`questionnaires/${key}`).once('value').then((snapshot) => {
+        const data = snapshot.val();
+        generatePDF(data, key, order);
+    }).catch((error) => {
+        console.error("Error retrieving data from Firebase:", error);
+    });
+}
+
+        function getUnfinishedFormData() {
+            const localStorageData = {};
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith('questionnaireData') && key !== 'questionnaireData2' && key !== 'questionnaireData3' && key !== 'questionnaireData2_undefined') {
+                    const value = localStorage.getItem(key);
+
+                    if (value && value !== "{}") {
+                        localStorageData[key] = JSON.parse(value);
+                    }
+                }
+            }
+            console.log("Retrieved unfinished forms from localStorage:", localStorageData);
+            return localStorageData;
+        }
+
+        function displayUnfinishedFormPreviews() {
+            const localStorageData = getUnfinishedFormData();
+            const formUnfinishedDiv = document.getElementById('form-unfinished');
+
+            if (Object.keys(localStorageData).length === 0) {
+                formUnfinishedDiv.innerHTML = '<p class="text-error">Aucun formulaire à compléter disponible.</p>';
+                return;
+            }
+
+            Object.entries(localStorageData).forEach(([key, formData]) => {
+                const formPreviewDiv = document.createElement('div');
+                formPreviewDiv.classList.add('form-preview');
+
+                const previewHtml = `
+                    <p><strong>Élève:</strong> ${formData["Nom de l'élève"] || 'N/A'}</p>
+                    <p><strong>Entreprise:</strong> ${formData["Nom de l'entreprise"] || 'N/A'}</p>
+                    <button class="buttoncontinue" onclick='continueForm("${key}")'>Continuer</button>
+                `;
+                formPreviewDiv.innerHTML = previewHtml;
+
+                formUnfinishedDiv.appendChild(formPreviewDiv);
+            });
+        }
+
+        function continueForm(key) {
+    const lastCompletedPage = localStorage.getItem('lastCompletedPage');
+
+    switch (lastCompletedPage) {
+        case 'page1':
+            window.location.href = `questionnaire2.html?key=${key}`;
+            break;
+        case 'page2':
+            window.location.href = `questionnaire3.html?key=${key}`;
+            break;
+        default:
+            window.location.href = 'questionnaire1.html';
+            break;
+    }
+}
+
+        window.onload = function() {
+            displayFormPreviews();
+            displayUnfinishedFormPreviews();
+        };
+    </script>
+
+</body>
 </html>
