@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifier un formulaire</title>
+    <link rel="stylesheet" href="test.css">
+    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-database-compat.js"></script>
+</head>
+<body>
+    <header>
+        <h2 class="logo">Modifier un formulaire</h2>
+        <nav class="navigation">
+            <a href="homepage.html">Accueil</a>
+          <button class="bouton-logout" id="bouton-deconnexion">Déconnexion</button>
+        </nav>
+    </header>
+
+    <div class="form-formulaire"> 
+        <h2 class="questionnaire-textedit">Modification des réponses du questionnaire</h2>
+        <form id="edit-form">
+            <div class="input-box-modif"> 
+                <label class="label2-box2-modif" for="question1" class="nom-input">Nom de l'élève</label>
+                <input class="input2-box2-modif" id="question1"type="text" required name="Nom de l'élève">
+                </div>
+                <div class="input-box-modif">
+                    <label class="label2-box2-modif" for="question2"class="nom-input">Nom du professeur</label>
+                    <input class="input2-box2-modif" id="question2"type="text" required name="Nom du professeur">
+                  </div>
+                  <div class="input-box-modif">
+                    <label class="label2-box2-modif" for="question3"class="nom-input">Nom de l'entreprise</label>
+                    <input class="input2-box2-modif" id="question3"type="text" required name="Nom de l'entreprise">
+                  </div>
+            <div class="input-box-modif">
+                <label class="label2-box2-modif" for="question4"class="nom-input">Nom du tuteur</label>
+                <input class="input2-box2-modif" id="question4"type="text" required name="Nom du tuteur">
+              </div>
+              <div class="input-box-modif">
+                <label class="label2-box2-modif" for="question5"class="nom-input">Date de début du stage</label>
+                <input class="input2-box2-modif" id="question5"type="date" required name="Date de début du stage">
+              </div>
+            <div class="input-box-modif">
+                    <label class="label2-box2-modif" class="label" for="question6"class="nom-input">Date de fin du stage</label>
+                    <input class="input2-box2-modif" id="question6"type="date" required name="Date de fin du stage">
+                  </div>
+                  <fieldset class="input-box5-2">
+            <div class="radio-group-row">
+                <legend class="input-box5-label">Ponctualité</legend>
+                <label class="input-box5-input"><input type="radio" id="ponctuel" name="Ponctualité" value="ponctuel"> Ponctuel</label>
+                <label class="input-box5-input"><input type="radio" id="retards-exceptionnels" name="Ponctualité" value="retards exceptionnels"> Retards exceptionnels</label>
+                <label class="input-box5-input"><input type="radio" id="retards-repetes" name="Ponctualité" value="retards répétés"> Retards répétés</label>
+            </div>
+        </fieldset>
+        <fieldset class="input-box5-2">
+            <div class="radio-group-row">
+                <legend class="input-box5-label">Assiduité</legend>
+                <label class="input-box5-input"><input type="radio" name="Assiduité" value="toujours présent"> Toujours présent</label>
+                <label class="input-box5-input"><input type="radio" name="Assiduité" value="quelques absences justifiées"> Quelques absences justifiées</label>
+                <label class="input-box5-input"><input type="radio" name="Assiduité" value="absences justifiées"> Des absences justifiées</label>
+            </div>
+        </fieldset>
+            <div class="input-box-modif">
+                <label class="nom-input">Nombre de jours d'absence</label>
+                <input class="input2-box2-modif" type="text" id="nombreabs" name="Nombre de jours d'absence" maxlength="4">
+              </div>
+              <fieldset class="input-box5-2">
+                <div class="radio-group-row">
+                <legend class="input-box5-label">Intérêt porté au travail</legend>
+                <label class="input-box5-input"><input type="radio" name="Intérêt porté au travail" value="bon"> Bon</label>
+                <label class="input-box5-input"><input type="radio" name="Intérêt porté au travail" value="moyen"> Moyen</label>
+                <label class="input-box5-input"><input type="radio" name="Intérêt porté au travail" value="aucun"> Aucun</label>
+            </div>
+        </fieldset>
+        <fieldset class="input-box5-2">
+            <div class="radio-group-row">
+                <legend class="input-box5-label">Esprit d'initiative</legend>
+                <label class="input-box5-input"><input type="radio" name="Esprit d'initiative" value="bon"> Bon</label>
+                <label class="input-box5-input"><input type="radio" name="Esprit d'initiative" value="moyen"> Moyen</label>
+                <label class="input-box5-input"><input type="radio" name="Esprit d'initiative" value="aucun"> Aucun</label>
+            </div>
+        </fieldset>
+        <fieldset class="input-box5-2">
+            <div class="radio-group-row">
+                <legend class="input-box5-label">Sens de l'organisation</legend>
+                <label class="input-box5-input"><input type="radio" name="Sens de l'organisation" value="bon"> Bon</label>
+                <label class="input-box5-input"><input type="radio" name="Sens de l'organisation" value="moyen"> Moyen</label>
+                <label class="input-box5-input"><input type="radio" name="Sens de l'organisation" value="aucun"> Aucun</label>
+            </div>
+        </fieldset>
+        <fieldset class="input-box5-2">
+            <div class="radio-group-row">
+                <legend class="input-box5-label">Compréhension</legend>
+                <label class="input-box5-input"><input type="radio" name="Compréhension" value="bonne"> Bonne</label>
+                <label class="input-box5-input"><input type="radio" name="Compréhension" value="moyenne"> Moyenne</label>
+                <label class="input-box5-input"><input type="radio" name="Compréhension" value="aucune"> Aucune</label>
+            </div>
+        </fieldset>
+        <fieldset class="input-box5-2">
+            <div class="radio-group-row">
+                <legend class="input-box5-label">Qualité du travail</legend>
+                <label class="input-box5-input"><input type="radio" name="Qualité du travail" value="bonne"> Bonne</label>
+                <label class="input-box5-input"><input type="radio" name="Qualité du travail" value="moyenne"> Moyenne</label>
+                <label class="input-box5-input"><input type="radio" name="Qualité du travail" value="aucune"> Aucune</label>
+            </div>
+        </fieldset>
+        <fieldset class="input-box5-2">
+            <div class="radio-group-row">
+                <legend class="input-box5-label">Intégration dans l'équipe</legend>
+                <label class="input-box5-input"><input type="radio" name="Intégration dans l'équipe" value="bonne"> Bonne</label>
+                <label class="input-box5-input"><input type="radio" name="Intégration dans l'équipe" value="moyenne"> Moyenne</label>
+                <label class="input-box5-input"><input type="radio" name="Intégration dans l'équipe" value="aucune"> Aucune</label>
+            </div>
+        </fieldset>
+            <button class="btn5" type="submit">Sauvegarder</button>
+        </form>
+    
+        <script>
+            const firebaseConfig = {
+                apiKey: "AIzaSyASDFQ3PARlE_AUK43jsa5dadcupRFwnrg",
+                authDomain: "websitedb-jc.firebaseapp.com",
+                databaseURL: "https://websitedb-jc-default-rtdb.europe-west1.firebasedatabase.app",
+                projectId: "websitedb-jc",
+                storageBucket: "websitedb-jc.appspot.com",
+                messagingSenderId: "284052306058",
+                appId: "1:284052306058:web:d1a072d0f0972392355573"
+            };
+    
+            firebase.initializeApp(firebaseConfig);
+            const database = firebase.database();
+    
+            const urlParams = new URLSearchParams(window.location.search);
+            const formKey = urlParams.get('key');
+    
+            async function getFormData(key) {
+                try {
+                    const snapshot = await database.ref(`questionnaires/${key}`).once('value');
+                    return snapshot.val();
+                } catch (error) {
+                    console.error("Error retrieving data from Firebase:", error);
+                }
+            }
+    
+            async function populateForm() {
+                const formData = await getFormData(formKey);
+    
+                document.getElementById('question1').value = formData["Nom de l'élève"] || '';
+                document.getElementById('question2').value = formData["Nom du professeur"] || '';
+                document.getElementById('question3').value = formData["Nom de l'entreprise"] || '';
+                document.getElementById('question4').value = formData["Nom du tuteur"] || '';
+                document.getElementById('question5').value = formData["Date de début du stage"] || '';
+                document.getElementById('question6').value = formData["Date de fin du stage"] || '';
+                document.getElementById('nombreabs').value = formData["Nombre de jours d'absence"] || '';
+
+                document.querySelector(`input[name="Ponctualité"][value="${formData["Ponctualité"]}"]`).checked = true;
+                document.querySelector(`input[name="Assiduité"][value="${formData["Assiduité"]}"]`).checked = true;
+                document.querySelector(`input[name="Intérêt porté au travail"][value="${formData["Intérêt porté au travail"]}"]`).checked = true;
+                document.querySelector(`input[name="Esprit d'initiative"][value="${formData["Esprit d'initiative"]}"]`).checked = true;
+                document.querySelector(`input[name="Sens de l'organisation"][value="${formData["Sens de l'organisation"]}"]`).checked = true;
+                document.querySelector(`input[name="Compréhension"][value="${formData["Compréhension"]}"]`).checked = true;
+                document.querySelector(`input[name="Qualité du travail"][value="${formData["Qualité du travail"]}"]`).checked = true;
+                document.querySelector(`input[name="Intégration dans l'équipe"][value="${formData["Intégration dans l'équipe"]}"]`).checked = true;
+            }
+    
+            document.getElementById('edit-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const updatedData = {};
+
+    updatedData["Nom de l'élève"] = document.getElementById('question1').value;
+    updatedData["Nom du professeur"] = document.getElementById('question2').value;
+    updatedData["Nom de l'entreprise"] = document.getElementById('question3').value;
+    updatedData["Nom du tuteur"] = document.getElementById('question4').value;
+    updatedData["Date de début du stage"] = document.getElementById('question5').value;
+    updatedData["Date de fin du stage"] = document.getElementById('question6').value;
+    updatedData["Nombre de jours d'absence"] = document.getElementById('nombreabs').value;
+
+    updatedData["Ponctualité"] = document.querySelector('input[name="Ponctualité"]:checked').value;
+    updatedData["Assiduité"] = document.querySelector('input[name="Assiduité"]:checked').value;
+    updatedData["Intérêt porté au travail"] = document.querySelector('input[name="Intérêt porté au travail"]:checked').value;
+    updatedData["Esprit d'initiative"] = document.querySelector('input[name="Esprit d\'initiative"]:checked').value;
+    updatedData["Sens de l'organisation"] = document.querySelector('input[name="Sens de l\'organisation"]:checked').value;
+    updatedData["Compréhension"] = document.querySelector('input[name="Compréhension"]:checked').value;
+    updatedData["Qualité du travail"] = document.querySelector('input[name="Qualité du travail"]:checked').value;
+    updatedData["Intégration dans l'équipe"] = document.querySelector('input[name="Intégration dans l\'équipe"]:checked').value;
+
+
+
+    try {
+        await database.ref(`questionnaires/${formKey}`).update(updatedData);
+        window.location.href = 'modif-form-confirm.html'; 
+    } catch (error) {
+        console.error("Error updating form:", error);
+        alert('Erreur lors de la mise à jour du formulaire.');
+    }
+});
+    
+            window.onload = populateForm;
+        </script>
+</body>
+</html>

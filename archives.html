@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page d'archives</title>
+    <link rel="stylesheet" href="test.css">
+    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-database-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <header>
+        <h2 class="logo">Page d'archives</h2>
+        <nav class="navigation">
+            <a href="homepage.html">Accueil</a>
+            <button class="bouton-logout" id="bouton-deconnexion">Déconnexion</button>
+        </nav>
+    </header>
+    <div>
+        <p class="archive-titre">Formulaires archivés par années</p>
+    </div>
+    <div class="wrapper-container">
+        <div id="archives-container" class="archives-grid"></div>
+    </div>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyASDFQ3PARlE_AUK43jsa5dadcupRFwnrg",
+            authDomain: "websitedb-jc.firebaseapp.com",
+            databaseURL: "https://websitedb-jc-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "websitedb-jc",
+            storageBucket: "websitedb-jc.appspot.com",
+            messagingSenderId: "284052306058",
+            appId: "1:284052306058:web:d1a072d0f0972392355573",
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        async function getArchivedFormData() {
+            try {
+                const snapshot = await database.ref('archives').once('value');
+                return snapshot.val();
+            } catch (error) {
+                console.error("Error retrieving archived data from Firebase:", error);
+                return null;
+            }
+        }
+
+        async function displayArchivedForms() {
+            const data = await getArchivedFormData();
+            const archivesContainer = document.getElementById('archives-container');
+
+            if (!data) {
+                archivesContainer.innerHTML = '<p class="text-error-archive">Aucune archive disponible.</p>';
+                return;
+            }
+
+            const yearBlocks = {};
+
+            Object.entries(data).forEach(([year, forms]) => {
+                Object.entries(forms).forEach(([key, formData]) => {
+                    const dateDebutStage = formData["Date de début du stage"];
+                    if (dateDebutStage) {
+                        const year = getYearFromDate(dateDebutStage);
+                        if (!yearBlocks[year]) {
+                            yearBlocks[year] = [];
+                        }
+                        yearBlocks[year].push({ key, formData });
+                    }
+                });
+            });
+
+            Object.keys(yearBlocks).forEach(year => {
+                const yearDiv = document.createElement('div');
+                yearDiv.classList.add('archive-year');
+
+                const yearButton = document.createElement('button');
+                yearButton.textContent = year;
+                yearButton.classList.add('year-button');
+                yearButton.onclick = () => {
+                    const formsDiv = yearDiv.querySelector('.forms');
+                    formsDiv.style.display = formsDiv.style.display === 'none' ? 'block' : 'none';
+                };
+
+                const formsDiv = document.createElement('div');
+                formsDiv.classList.add('forms');
+                formsDiv.style.display = 'none';
+
+                yearBlocks[year].forEach(({ key, formData }) => {
+                    const formPreviewDiv = document.createElement('div');
+                    formPreviewDiv.classList.add('form-preview');
+                    formPreviewDiv.id = `archived-form-preview-${key}`;
+
+                    const previewHtml = `
+                        <p><strong>Élève:</strong> ${formData["Nom de l'élève"] || 'N/A'}</p>
+                        <p><strong>Professeur:</strong> ${formData["Nom du professeur"] || 'N/A'}</p>
+                        <p><strong>Date de début du stage:</strong> ${formatDate(formData["Date de début du stage"] || 'N/A')}</p>
+                        <p><strong>Date de fin du stage:</strong> ${formatDate(formData["Date de fin du stage"] || 'N/A')}</p>
+                        <button class="buttonpdf" onclick="generateArchivedPDFById('${year}', '${key}')">Prévisualiser PDF</button>
+                    `;
+                    formPreviewDiv.innerHTML = previewHtml;
+                    formsDiv.appendChild(formPreviewDiv);
+                });
+
+                yearDiv.appendChild(yearButton);
+                yearDiv.appendChild(formsDiv);
+                archivesContainer.appendChild(yearDiv);
+            });
+        }
+
+        function generateArchivedPDFById(year, key) {
+            database.ref(`archives/${year}/${key}`).once('value').then((snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    generatePDF(data, key, [
+                        "Questionnaire ID",
+                        "Nom de l'élève",
+                        "Nom du professeur",
+                        "Nom de l'entreprise",
+                        "Nom du tuteur",
+                        "Date de début du stage",
+                        "Date de fin du stage",
+                        "Ponctualité",
+                        "Assiduité",
+                        "Nombre de jours d'absence",
+                        "Intérêt porté au travail",
+                        "Esprit d'initiative",
+                        "Sens de l'organisation",
+                        "Compréhension",
+                        "Qualité du travail",
+                        "Intégration dans l'équipe",
+                    ]);
+                } else {
+                    console.error(`No data found for year ${year} and key ${key}`);
+                }
+            }).catch((error) => {
+                console.error("Error retrieving archived data from Firebase:", error);
+            });
+        }
+
+        function formatDate(dateString) {
+            if (!dateString || typeof dateString !== 'string') return 'N/A';
+            const [year, month, day] = dateString.split('-');
+            return `${day}-${month}-${year}`;
+        }
+
+        function getYearFromDate(dateString) {
+            if (!dateString || typeof dateString !== 'string') return 'N/A';
+            const [year] = dateString.split('-');
+            return year;
+        }
+
+        function generatePDF(data, key, order) {
+            const { jsPDF } = window.jspdf;
+            if (!jsPDF) {
+                console.error('jsPDF not found');
+                return;
+            }
+
+            const doc = new jsPDF();
+            let yPosition = 10;
+            doc.text(`Questionnaire ID: ${key}`, 10, yPosition);
+            yPosition += 10;
+
+            order.forEach(field => {
+                if (data[field] !== undefined) {
+                    let fieldValue = data[field];
+                    if (/^\d{4}-\d{2}-\d{2}$/.test(fieldValue)) { // Check if date format is yyyy-mm-dd
+                        fieldValue = formatDate(fieldValue); // Reformat date
+                    }
+                    doc.text(`${field}: ${fieldValue}`, 10, yPosition);
+                    yPosition += 10;
+                }
+            });
+
+            const pdfBlob = doc.output('blob');
+            const blobUrl = URL.createObjectURL(pdfBlob);
+            window.open(blobUrl);
+
+            setTimeout(() => {
+                URL.revokeObjectURL(blobUrl);
+            }, 10000);
+        }
+
+        window.onload = function() {
+            displayArchivedForms();
+        };
+    </script>
+
+    <script src="verif-connection2.js"></script>
+    <script src="test2.js"></script>
+
+</body

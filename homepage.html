@@ -14,6 +14,8 @@
     <header>
         <h2 class="logo">Accueil</h2>
         <nav class="navigation">
+            <a href="statistiques.html">Statistiques</a>
+            <a href="archives.html">Archives</a>
             <a href="questionnaire1.html">Répondre au questionnaire</a>
             <button class="bouton-logout" id="bouton-deconnexion">Déconnexion</button>
         </nav>
@@ -21,11 +23,12 @@
 
     <div class="wrapper2" id="form-previews">
       <div class="wrapper2-head">Formulaires complétés</div>
+      <input type="text" id="search-bar" placeholder="Rechercher..." class="searchbar">
 
     </div>
 
     <div class="wrapper3" id="form-unfinished">
-      <div class="wrapper3-head">Formulaire en cours</div>
+      <div class="wrapper3-head">Formulaires en cours</div>
 
     </div>
 
@@ -98,21 +101,31 @@
                 return;
             }
 
-            Object.entries(data).forEach(([key, formData]) => {
-                const formPreviewDiv = document.createElement('div');
-                formPreviewDiv.classList.add('form-preview');
 
+            const sortedData = Object.entries(data).sort((a, b) => b[0].localeCompare(a[0]));
 
-                const previewHtml = `
-                    <p><strong>Élève:</strong> ${formData["Nom de l'élève"] || 'N/A'}</p>
-                    <p><strong>Entreprise:</strong> ${formData["Nom de l'entreprise"] || 'N/A'}</p>
-                    <button class ="buttonpdf" onclick='generatePDFById("${key}")'>Prévisualiser PDF</button>
-                `;
-                formPreviewDiv.innerHTML = previewHtml;
+    sortedData.forEach(([key, formData]) => {
+        const formPreviewDiv = document.createElement('div');
+        formPreviewDiv.classList.add('form-preview');
+        formPreviewDiv.id = `form-preview-${key}`;
 
-                formPreviewsDiv.appendChild(formPreviewDiv);
-            });
-        }
+        const previewHtml = `
+            <p><strong>Élève:</strong> ${formData["Nom de l'élève"] || 'N/A'}</p>
+            <p><strong>Professeur:</strong> ${formData["Nom du professeur"] || 'N/A'}</p>
+            <button class="buttonpdf" onclick='generatePDFById("${key}")'>Prévisualiser PDF</button>
+            <button class="buttonedit" onclick='editForm("${key}")'>Modifier</button>
+            <button class="buttonarchive" onclick='archiveForm("${key}")'>Archiver</button>
+            <button class="buttondelete" onclick='deleteForm("${key}")'>Supprimer</button>
+            
+        `;
+        formPreviewDiv.innerHTML = previewHtml;
+
+        formPreviewsDiv.appendChild(formPreviewDiv);
+    });
+}
+function editForm(key) {
+    window.location.href = `editForm.html?key=${key}`;
+}
 
         function generatePDFById(key) {
     const order = [
@@ -173,7 +186,7 @@
 
                 const previewHtml = `
                     <p><strong>Élève:</strong> ${formData["Nom de l'élève"] || 'N/A'}</p>
-                    <p><strong>Entreprise:</strong> ${formData["Nom de l'entreprise"] || 'N/A'}</p>
+                    <p><strong>Professeur:</strong> ${formData["Nom du professeur"] || 'N/A'}</p>
                     <button class="buttoncontinue" onclick='continueForm("${key}")'>Continuer</button>
                 `;
                 formPreviewDiv.innerHTML = previewHtml;
@@ -197,6 +210,77 @@
             break;
     }
 }
+
+function filterForms() {
+            const query = document.getElementById('search-bar').value.toLowerCase();
+            const forms = document.querySelectorAll('.form-preview');
+
+            forms.forEach(form => {
+                const name = form.querySelector('p').textContent.toLowerCase();
+                const company = form.querySelectorAll('p')[1].textContent.toLowerCase();
+
+                if (name.includes(query) || company.includes(query)) {
+                    form.style.display = '';
+                } else {
+                    form.style.display = 'none';
+                }
+            });
+        }
+
+        document.getElementById('search-bar').addEventListener('input', filterForms);
+
+async function deleteForm(key) {
+    const confirmation = confirm("Êtes-vous sûr de vouloir supprimer ce formulaire?");
+    if (confirmation) {
+        try {
+            await database.ref(`questionnaires/${key}`).remove();
+            alert("Formulaire supprimé avec succès.");
+            const formPreviewDiv = document.getElementById(`form-preview-${key}`);
+            if (formPreviewDiv) {
+                formPreviewDiv.remove();
+            } else {
+                console.warn(`Form preview with key ${key} not found.`);
+            }
+
+        } catch (error) {
+            console.error("Error deleting data from Firebase:", error);
+            alert("Une erreur s'est produite lors de la suppression du formulaire.");
+        }
+    }
+}
+
+async function archiveForm(key) {
+    const confirmation = confirm("Êtes-vous sûr de vouloir archiver ce formulaire?");
+    if (confirmation) {
+        try {
+            const snapshot = await database.ref(`questionnaires/${key}`).once('value');
+            const formData = snapshot.val();
+
+            const dateDebut = formData["Date de début du stage"];
+            if (!dateDebut || !dateDebut.includes('-')) {
+                alert("La date de début du stage est manquante ou incorrecte.");
+                return;
+            }
+
+            const year = dateDebut.split('-')[0]; // Extract year from the date
+
+            await database.ref(`archives/${year}/${key}`).set(formData); // Save under year instead of month
+            await database.ref(`questionnaires/${key}`).remove();
+
+            alert(`Formulaire archivé avec succès.`);
+            const formPreviewDiv = document.getElementById(`form-preview-${key}`);
+            if (formPreviewDiv) {
+                formPreviewDiv.remove();
+            } else {
+                console.warn(`Form preview with key ${key} not found.`);
+            }
+        } catch (error) {
+            console.error("Error archiving form:", error);
+            alert("Une erreur s'est produite lors de l'archivage du formulaire.");
+        }
+    }
+}
+
 
         window.onload = function() {
             displayFormPreviews();

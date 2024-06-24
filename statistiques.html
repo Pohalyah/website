@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistiques</title>
+    <link rel="stylesheet" href="test.css">
+    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-database-compat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.2/chart.min.js"></script>
+</head>
+<body>
+    <header>
+        <h2 class="logo">Statistiques</h2>
+        <nav class="navigation">
+            <a href="homepage.html">Accueil</a>
+            <button class="bouton-logout" id="bouton-deconnexion">Déconnexion</button>
+        </nav>
+    </header>
+    <div class="filters">
+        <label for="yearFilter" class="filtreannee">Filtrer par année:</label>
+        <select id="yearFilter">
+            <option value="">Toutes les années</option>
+        </select>
+
+        <label for="nameFilter" class="filtrenom">Filtrer par nom:</label>
+        <input type="text" id="nameFilter">
+
+        <button onclick="applyFilters()" class="filtrebutton">Appliquer</button>
+    </div>
+
+    <div id="statistics-container" class="statistics-container">
+        <p id="total-forms"></p>
+        <button onclick="toggleAllChartsVisibility()">Afficher tous</button>
+        <div id="charts-container" class="charts-wrapper"></div>
+
+    </div>
+
+    <script src="statistiques.js"></script>
+
+
+
+</body>
+</html>

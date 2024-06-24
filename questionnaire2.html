@@ -25,6 +25,9 @@
     <link rel="stylesheet" href="test.css">
 </head>
     <body>
+      <h3 class="fullbar-title">Barre de progression</h3>
+      <div class="fullbar2">
+        <div class="fillbar2" style="width: 33%;"></div>
         <header>
             <h2 class="logo">Questionnaire 2/3</h2>
             <nav class="navigation">
@@ -32,20 +35,20 @@
               <button class="bouton-logout" id="bouton-deconnexion">Déconnexion</button>
             </nav>
           </header>
-          <div class="form-formulaire"> 
+          <div class="form-formulaire2"> 
             <h2 class="questionnaire-text">Évaluation des attitudes professionnelles</h2>
             <form id="formulaire2">
                 <fieldset class="input-box4">
                     <legend class="input-box4-label">Ponctualité</legend>
                     <div class="radio-group">
 
-                        <input type="radio" id="ponctuel" name="Ponctualité" value="ponctuel">
+                        <input type="radio" id="ponctuel" required name="Ponctualité" value="ponctuel">
                         <label for="ponctuel">Ponctuel</label>
 
-                        <input type="radio" id="retards-exceptionnels" name="Ponctualité" value="retards exceptionnels">
+                        <input type="radio" id="retards-exceptionnels" required name="Ponctualité" value="retards exceptionnels">
                         <label for="retards-exceptionnels">Retards exceptionnels</label>
 
-                        <input type="radio" id="retards-repetes" name="Ponctualité" value="retards répétés">
+                        <input type="radio" id="retards-repetes" required name="Ponctualité"  value="retards répétés">
                         <label for="retards-repetes">Retards répétés</label>
 
                     </div>
@@ -54,40 +57,40 @@
                   <legend class="input-box5-label">Assiduité</legend>
                   <div class="radio-group">
 
-                    <input type="radio" id="assiduitetjrpresent" name="Assiduité" value="toujours présent">
+                    <input type="radio" id="assiduitetjrpresent" required name="Assiduité" value="toujours présent">
                     <label for="assiduitetjrpresent">Toujours présent</label>
         
-                    <input type="radio" id="assiduiteqlqabsjstf" name="Assiduité" value="quelques absences justifiées">
+                    <input type="radio" id="assiduiteqlqabsjstf" required name="Assiduité" value="quelques absences justifiées">
                     <label for="assiduiteqlqabsjstf">Quelques absences justifiées</label>
         
-                    <input type="radio" id="assiduiteabsjstf" name="Assiduité" value="absences justifiées">
+                    <input type="radio" id="assiduiteabsjstf" required name="Assiduité" value="absences justifiées">
                     <label for="assiduiteabsjstf">Des absences justifiées</label>
 
                   </div>
               </fieldset>
               <div class="input-boxjourabs">
-                <input type="text" id="nombreabs" name="Nombre de jours d'absence" maxlength="4">
+                <input type="text" id="nombreabs" required name="Nombre de jours d'absence" maxlength="4">
                 <label class="nombreabs-input" for="nombreabs">Nombre de jours d'absence</label>
               </div>
               <fieldset class="input-box6">
                 <legend class="input-box6-label">Intérêt porté au travail</legend>
                 <div class="radio-group">
-                  <input type="radio" id="interetbon" name="Intérêt porté au travail" value="bon">
+                  <input type="radio" id="interetbon" required name="Intérêt porté au travail" value="bon">
                   <label for="interetbon">Bon</label>
-                  <input type="radio" id="interetmoyen" name="Intérêt porté au travail" value="moyen">
+                  <input type="radio" id="interetmoyen" required name="Intérêt porté au travail" value="moyen">
                   <label for="interetmoyen">Moyen</label>
-                  <input type="radio" id="interetaucun" name="Intérêt porté au travail" value="aucun">
+                  <input type="radio" id="interetaucun" required name="Intérêt porté au travail" value="aucun">
                   <label for="interetaucun">Aucun</label>
                 </div>
             </fieldset>
             <fieldset class="input-box7">
               <legend class="input-box7-label">Esprit d'initiative</legend>
               <div class="radio-group">
-                  <input type="radio" id="initiativebon" name="Esprit d'initiative" value="bon">
+                  <input type="radio" id="initiativebon" required name="Esprit d'initiative" value="bon">
                   <label for="initiativebon">Bon</label>
-                  <input type="radio" id="initiativemoyen" name="Esprit d'initiative" value="moyen">
+                  <input type="radio" id="initiativemoyen" required name="Esprit d'initiative" value="moyen">
                   <label for="initiativemoyen">Moyen</label>
-                  <input type="radio" id="initiativeaucun" name="Esprit d'initiative" value="aucun">
+                  <input type="radio" id="initiativeaucun" required name="Esprit d'initiative" value="aucun">
                   <label for="initiativeaucun">Aucun</label>
               </div>
           </fieldset>
