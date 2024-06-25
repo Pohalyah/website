@@ -170,34 +170,40 @@
     }
     
     document.getElementById('edit-form').addEventListener('submit', async (event) => {
-            event.preventDefault();
+    event.preventDefault();
+
+    const updatedData = {
+        "Nom de l'élève": document.getElementById('question1').value,
+        "Nom du professeur": document.getElementById('question2').value,
+        "Nom de l'entreprise": document.getElementById('question3').value,
+        "Nom du tuteur": document.getElementById('question4').value,
+        "Date de début du stage": document.getElementById('question5').value,
+        "Date de fin du stage": document.getElementById('question6').value,
+        "Nombre de jours d'absence": document.getElementById('nombreabs').value,
+        "Ponctualité": document.querySelector('input[name="Ponctualité"]:checked').value,
+        "Assiduité": document.querySelector('input[name="Assiduité"]:checked').value,
+        "Intérêt porté au travail": document.querySelector('input[name="Intérêt porté au travail"]:checked').value,
+        "Esprit d'initiative": document.querySelector('input[name="Esprit d\'initiative"]:checked').value,
+        "Sens de l'organisation": document.querySelector('input[name="Sens de l\'organisation"]:checked').value,
+        "Compréhension": document.querySelector('input[name="Compréhension"]:checked').value,
+        "Qualité du travail": document.querySelector('input[name="Qualité du travail"]:checked').value,
+        "Intégration dans l'équipe": document.querySelector('input[name="Intégration dans l\'équipe"]:checked').value
+    };
     
-            const updatedData = {
-                "Nom de l'élève": document.getElementById('question1').value,
-                "Nom du professeur": document.getElementById('question2').value,
-                "Nom de l'entreprise": document.getElementById('question3').value,
-                "Nom du tuteur": document.getElementById('question4').value,
-                "Date de début du stage": document.getElementById('question5').value,
-                "Date de fin du stage": document.getElementById('question6').value,
-                "Nombre de jours d'absence": document.getElementById('nombreabs').value,
-                "Ponctualité": document.querySelector('input[name="Ponctualité"]:checked').value,
-                "Assiduité": document.querySelector('input[name="Assiduité"]:checked').value,
-                "Intérêt porté au travail": document.querySelector('input[name="Intérêt porté au travail"]:checked').value,
-                "Esprit d'initiative": document.querySelector('input[name="Esprit d\'initiative"]:checked').value,
-                "Sens de l'organisation": document.querySelector('input[name="Sens de l\'organisation"]:checked').value,
-                "Compréhension": document.querySelector('input[name="Compréhension"]:checked').value,
-                "Qualité du travail": document.querySelector('input[name="Qualité du travail"]:checked').value,
-                "Intégration dans l'équipe": document.querySelector('input[name="Intégration dans l\'équipe"]:checked').value
-            };
-    
-            try {
-                await database.ref(`questionnaires/${formKey}`).update(updatedData);
-                window.location.href = 'modif-form-confirm.html'; 
-            } catch (error) {
-                console.error("Error updating form:", error);
-                alert('Erreur lors de la mise à jour du formulaire.');
-            }
-        });
+    const formKey = localStorage.getItem('editFormKey');
+    if (!formKey) {
+        console.error("Clé de formulaire non trouvée dans le localStorage.");
+        return;
+    }
+
+    try {
+        await database.ref(`questionnaires/${formKey}`).update(updatedData);
+        window.location.href = 'modif-form-confirm.html';
+    } catch (error) {
+        console.error("Error updating form:", error);
+        alert('Erreur lors de la mise à jour du formulaire.');
+    }
+});
     
         window.onload = populateForm;
         </script>
