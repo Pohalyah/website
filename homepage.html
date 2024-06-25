@@ -113,18 +113,22 @@
             <p><strong>Élève:</strong> ${formData["Nom de l'élève"] || 'N/A'}</p>
             <p><strong>Professeur:</strong> ${formData["Nom du professeur"] || 'N/A'}</p>
             <button class="buttonpdf" onclick='generatePDFById("${key}")'>Prévisualiser PDF</button>
-            <button class="buttonedit" onclick='editForm("${key}")'>Modifier</button>
+            <button class="buttonedit">Modifier</button>
             <button class="buttonarchive" onclick='archiveForm("${key}")'>Archiver</button>
             <button class="buttondelete" onclick='deleteForm("${key}")'>Supprimer</button>
             
         `;
         formPreviewDiv.innerHTML = previewHtml;
 
-        formPreviewsDiv.appendChild(formPreviewDiv);
-    });
-}
+        const editButton = formPreviewDiv.querySelector('.buttonedit');
+            editButton.addEventListener('click', () => editForm(key));
+
+            formPreviewsDiv.appendChild(formPreviewDiv);
+        });
+    }
 function editForm(key) {
-    window.location.href = `editForm.html?key=${key}`;
+        localStorage.setItem('editFormKey', key); // Stocke la clé dans le localStorage
+        window.location.href = 'editform.html';
 }
 
         function generatePDFById(key) {

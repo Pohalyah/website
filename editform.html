@@ -143,25 +143,31 @@
             }
     
             async function populateForm() {
-                const formData = await getFormData(formKey);
-    
-                document.getElementById('question1').value = formData["Nom de l'élève"] || '';
-                document.getElementById('question2').value = formData["Nom du professeur"] || '';
-                document.getElementById('question3').value = formData["Nom de l'entreprise"] || '';
-                document.getElementById('question4').value = formData["Nom du tuteur"] || '';
-                document.getElementById('question5').value = formData["Date de début du stage"] || '';
-                document.getElementById('question6').value = formData["Date de fin du stage"] || '';
-                document.getElementById('nombreabs').value = formData["Nombre de jours d'absence"] || '';
+        const formKey = localStorage.getItem('editFormKey');
+        if (!formKey) {
+            console.error("Clé de formulaire non trouvée dans le localStorage.");
+            return;
+        }
 
-                document.querySelector(`input[name="Ponctualité"][value="${formData["Ponctualité"]}"]`).checked = true;
-                document.querySelector(`input[name="Assiduité"][value="${formData["Assiduité"]}"]`).checked = true;
-                document.querySelector(`input[name="Intérêt porté au travail"][value="${formData["Intérêt porté au travail"]}"]`).checked = true;
-                document.querySelector(`input[name="Esprit d'initiative"][value="${formData["Esprit d'initiative"]}"]`).checked = true;
-                document.querySelector(`input[name="Sens de l'organisation"][value="${formData["Sens de l'organisation"]}"]`).checked = true;
-                document.querySelector(`input[name="Compréhension"][value="${formData["Compréhension"]}"]`).checked = true;
-                document.querySelector(`input[name="Qualité du travail"][value="${formData["Qualité du travail"]}"]`).checked = true;
-                document.querySelector(`input[name="Intégration dans l'équipe"][value="${formData["Intégration dans l'équipe"]}"]`).checked = true;
-            }
+        const formData = await getFormData(formKey);
+
+        document.getElementById('question1').value = formData["Nom de l'élève"] || '';
+        document.getElementById('question2').value = formData["Nom du professeur"] || '';
+        document.getElementById('question3').value = formData["Nom de l'entreprise"] || '';
+        document.getElementById('question4').value = formData["Nom du tuteur"] || '';
+        document.getElementById('question5').value = formData["Date de début du stage"] || '';
+        document.getElementById('question6').value = formData["Date de fin du stage"] || '';
+        document.getElementById('nombreabs').value = formData["Nombre de jours d'absence"] || '';
+
+        document.querySelector(`input[name="Ponctualité"][value="${formData["Ponctualité"]}"]`).checked = true;
+        document.querySelector(`input[name="Assiduité"][value="${formData["Assiduité"]}"]`).checked = true;
+        document.querySelector(`input[name="Intérêt porté au travail"][value="${formData["Intérêt porté au travail"]}"]`).checked = true;
+        document.querySelector(`input[name="Esprit d'initiative"][value="${formData["Esprit d'initiative"]}"]`).checked = true;
+        document.querySelector(`input[name="Sens de l'organisation"][value="${formData["Sens de l'organisation"]}"]`).checked = true;
+        document.querySelector(`input[name="Compréhension"][value="${formData["Compréhension"]}"]`).checked = true;
+        document.querySelector(`input[name="Qualité du travail"][value="${formData["Qualité du travail"]}"]`).checked = true;
+        document.querySelector(`input[name="Intégration dans l'équipe"][value="${formData["Intégration dans l'équipe"]}"]`).checked = true;
+    }
     
             document.getElementById('edit-form').addEventListener('submit', async (event) => {
     event.preventDefault();
