@@ -169,40 +169,37 @@
         document.querySelector(`input[name="Intégration dans l'équipe"][value="${formData["Intégration dans l'équipe"]}"]`).checked = true;
     }
     
-            document.getElementById('edit-form').addEventListener('submit', async (event) => {
-    event.preventDefault();
-
-    const updatedData = {};
-
-    updatedData["Nom de l'élève"] = document.getElementById('question1').value;
-    updatedData["Nom du professeur"] = document.getElementById('question2').value;
-    updatedData["Nom de l'entreprise"] = document.getElementById('question3').value;
-    updatedData["Nom du tuteur"] = document.getElementById('question4').value;
-    updatedData["Date de début du stage"] = document.getElementById('question5').value;
-    updatedData["Date de fin du stage"] = document.getElementById('question6').value;
-    updatedData["Nombre de jours d'absence"] = document.getElementById('nombreabs').value;
-
-    updatedData["Ponctualité"] = document.querySelector('input[name="Ponctualité"]:checked').value;
-    updatedData["Assiduité"] = document.querySelector('input[name="Assiduité"]:checked').value;
-    updatedData["Intérêt porté au travail"] = document.querySelector('input[name="Intérêt porté au travail"]:checked').value;
-    updatedData["Esprit d'initiative"] = document.querySelector('input[name="Esprit d\'initiative"]:checked').value;
-    updatedData["Sens de l'organisation"] = document.querySelector('input[name="Sens de l\'organisation"]:checked').value;
-    updatedData["Compréhension"] = document.querySelector('input[name="Compréhension"]:checked').value;
-    updatedData["Qualité du travail"] = document.querySelector('input[name="Qualité du travail"]:checked').value;
-    updatedData["Intégration dans l'équipe"] = document.querySelector('input[name="Intégration dans l\'équipe"]:checked').value;
-
-
-
-    try {
-        await database.ref(`questionnaires/${formKey}`).update(updatedData);
-        window.location.href = 'modif-form-confirm.html'; 
-    } catch (error) {
-        console.error("Error updating form:", error);
-        alert('Erreur lors de la mise à jour du formulaire.');
-    }
-});
+    document.getElementById('edit-form').addEventListener('submit', async (event) => {
+            event.preventDefault();
     
-            window.onload = populateForm;
+            const updatedData = {
+                "Nom de l'élève": document.getElementById('question1').value,
+                "Nom du professeur": document.getElementById('question2').value,
+                "Nom de l'entreprise": document.getElementById('question3').value,
+                "Nom du tuteur": document.getElementById('question4').value,
+                "Date de début du stage": document.getElementById('question5').value,
+                "Date de fin du stage": document.getElementById('question6').value,
+                "Nombre de jours d'absence": document.getElementById('nombreabs').value,
+                "Ponctualité": document.querySelector('input[name="Ponctualité"]:checked').value,
+                "Assiduité": document.querySelector('input[name="Assiduité"]:checked').value,
+                "Intérêt porté au travail": document.querySelector('input[name="Intérêt porté au travail"]:checked').value,
+                "Esprit d'initiative": document.querySelector('input[name="Esprit d\'initiative"]:checked').value,
+                "Sens de l'organisation": document.querySelector('input[name="Sens de l\'organisation"]:checked').value,
+                "Compréhension": document.querySelector('input[name="Compréhension"]:checked').value,
+                "Qualité du travail": document.querySelector('input[name="Qualité du travail"]:checked').value,
+                "Intégration dans l'équipe": document.querySelector('input[name="Intégration dans l\'équipe"]:checked').value
+            };
+    
+            try {
+                await database.ref(`questionnaires/${formKey}`).update(updatedData);
+                window.location.href = 'modif-form-confirm.html'; 
+            } catch (error) {
+                console.error("Error updating form:", error);
+                alert('Erreur lors de la mise à jour du formulaire.');
+            }
+        });
+    
+        window.onload = populateForm;
         </script>
 </body>
 </html>
