@@ -6,24 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Questionnaire</title>
 
-    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-database-compat.js"></script>
 
-    <script>
-      const firebaseConfig = {
-          apiKey: "AIzaSyASDFQ3PARlE_AUK43jsa5dadcupRFwnrg",
-          authDomain: "websitedb-jc.firebaseapp.com",
-          databaseURL: "https://websitedb-jc-default-rtdb.europe-west1.firebasedatabase.app",
-          projectId: "websitedb-jc",
-          storageBucket: "websitedb-jc.appspot.com",
-          messagingSenderId: "284052306058",
-          appId: "1:284052306058:web:d1a072d0f0972392355573"
-      };
-
-      const app = firebase.initializeApp(firebaseConfig);
-      const database = firebase.database(app);
-      console.log(localStorage)
-  </script>
     <link rel="stylesheet" href="test.css">
 </head>
     <body>
@@ -31,7 +14,7 @@
       <div class="fullbar">
         <div class="fillbar" style="width: 0%;"></div>
         <header>
-            <h2 class="logo">Questionnaire 1/3</h2>
+            <h2 class="logo">Questionnaire 1/7</h2>
             
             <nav class="navigation">
                 <a href="homepage.html">Accueil</a>
@@ -75,6 +58,20 @@
     <script src="verif-connection.js"></script>
     <script src="verif-connection2.js"></script>
     <script src="test2.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-database-compat.js"></script>
+    <script>
+      const firebaseConfig = {
+          apiKey: "AIzaSyASDFQ3PARlE_AUK43jsa5dadcupRFwnrg",
+          authDomain: "websitedb-jc.firebaseapp.com",
+          databaseURL: "https://websitedb-jc-default-rtdb.europe-west1.firebasedatabase.app",
+          projectId: "websitedb-jc",
+          storageBucket: "websitedb-jc.appspot.com",
+          messagingSenderId: "284052306058",
+          appId: "1:284052306058:web:d1a072d0f0972392355573"
+      };
+      firebase.initializeApp(firebaseConfig);
+  </script>
     
 
     </body>

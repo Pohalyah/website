@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionnaire</title>
+
+
+    <link rel="stylesheet" href="test.css">
+</head>
+    <body>
+      <h3 class="fullbar-title">Barre de progression</h3>
+      <div class="fullbar3">
+        <div class="fillbar3" style="width: 91%;"></div>
+        <header>
+            <h2 class="logo">Questionnaire 7/7</h2>
+            <nav class="navigation">
+                <a href="homepage.html">Accueil</a>
+              <button class="bouton-logout" id="bouton-deconnexion">Déconnexion</button>
+            </nav>
+          </header>
+          <div class="form-formulaire3"> 
+            <h2 class="questionnaire-text">Résumé</h2>
+            <form id="formulaire7">
+              <div class="input-box2"> 
+                <label for="bilan" class="bilan-title">Bilan</label>
+                <br>
+                <textarea class="bilan-bilan" id="bilan" name="Bilan" rows="8" cols="25" maxlength="250">Entrez un bilan...</textarea>
+                </div>
+                <div class="input-box15">
+                <label for="appreciation"class="nom-input">Appréciation générale</label>
+                <input id="appreciation"type="text" required name="Appréciation générale">
+              </div>
+              <div class="input-boxjourabs2">
+                <input type="text" id="note" required name="Notation proposée sur 20" maxlength="2">
+                <label class="nombreabs-input" for="note">Notation proposée sur 20</label>
+              </div>
+              <button type="submit" class="btn4">Envoyer les réponses</button>
+          </form>
+          
+          </div>
+
+    <script src="verif-connection.js"></script>
+    <script src="verif-connection2.js"></script>
+    <script src="test2.js"></script>
+    <script src="sauvegarde-questionnaire.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-database-compat.js"></script>
+
+    <script>
+        const firebaseConfig = {
+          apiKey: "AIzaSyASDFQ3PARlE_AUK43jsa5dadcupRFwnrg",
+          authDomain: "websitedb-jc.firebaseapp.com",
+          databaseURL: "https://websitedb-jc-default-rtdb.europe-west1.firebasedatabase.app",
+          projectId: "websitedb-jc",
+          storageBucket: "websitedb-jc.appspot.com",
+          messagingSenderId: "284052306058",
+          appId: "1:284052306058:web:d1a072d0f0972392355573",
+        };
+      
+        firebase.initializeApp(firebaseConfig);
+
+            // Référence à la base de données
+            const databaseRef = firebase.database().ref();
+
+            const database = firebase.database();
+
+            // Écouteur pour soumettre le formulaire vers Firebase
+            document.getElementById('formulaire1','formulaire2','formulaire3','formulaire4','formulaire5','formulaire6',).addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                const questionnaireData = {};
+                const formData = new FormData(event.target);
+
+                formData.forEach((value, key) => {
+                    questionnaireData[key] = value;
+                });
+
+                console.log("Form data collected:", questionnaireData);
+
+                // Enregistrement dans Firebase
+                const newPostRef = database.ref('questionnaires').push();
+                newPostRef.set(questionnaireData)
+                    .then(() => {
+                        console.log("Data saved successfully with key:", newPostRef.key);
+                        setTimeout(() => {
+                            window.location.href = 'confirmation.html';
+                        }, 1000);
+                    })
+                    .catch((error) => {
+                        console.error('Erreur lors de la soumission du questionnaire : ', error);
+                    });
+            });
+
+            // Restauration des données depuis le localStorage lors du chargement de la page
+            window.onload = function() {
+                const questionnaireData = JSON.parse(localStorage.getItem('questionnaireData'));
+
+                if (questionnaireData) {
+                    Object.keys(questionnaireData).forEach(key => {
+                        const input = document.querySelector(`[name="${key}"]`);
+                        if (input) {
+                            if (input.type === 'radio') {
+                                if (input.value === questionnaireData[key]) {
+                                    input.checked = true;
+                                }
+                            } else {
+                                input.value = questionnaireData[key];
+                            }
+                        }
+                    });
+                }
+            }
+        </script>
+
+    </body>
+
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionnaire</title>
+
+
+    <link rel="stylesheet" href="test.css">
+</head>
+    <body>
+      <h3 class="fullbar-title">Barre de progression</h3>
+      <div class="fullbar2">
+        <div class="fillbar2" style="width: 43%;"></div>
+        <header>
+            <h2 class="logo">Questionnaire 4/7</h2>
+            <nav class="navigation">
+                <a href="homepage.html">Accueil</a>
+              <button class="bouton-logout" id="bouton-deconnexion">Déconnexion</button>
+            </nav>
+          </header>
+          <div class="form-formulaire2"> 
+            <h2 class="questionnaire-text">A1 - Étude et préparation de la réalisation</h2>
+            <form id="formulaire4">
+                <fieldset class="input-box12">
+                    <legend class="input-box12-label">C1 - Rechercher une information dans une documentation technique</legend>
+                    <div class="radio-group2">
+
+                        <input type="radio" id="C1bonnemaitrise" required name="C1 - Rechercher une information dans une documentation technique" value="bonnemaitrise">
+                        <label for="bonnemaitrise">Bonne maîtrise</label>
+
+                        <input type="radio" id="C1bonneacquisition" required name="C1 - Rechercher une information dans une documentation technique" value="bonneacqusition">
+                        <label for="bonneacquisition">Bonne acquisition</label>
+
+                        <input type="radio" id="C1encours" required name="C1 - Rechercher une information dans une documentation technique" value="encours">
+                        <label for="encours">En cours d'acquisition</label>
+
+                        <input type="radio" id="C1nonacquis" required name="C1 - Rechercher une information dans une documentation technique" value="nonacquis">
+                        <label for="nonacquis">Non acquis</label>
+
+                        <input type="radio" id="C1nonevalue" required name="C1 - Rechercher une information dans une documentation technique" value="nonevalue">
+                        <label for="nonevalue">Non évalué</label>
+
+
+                    </div>
+                </fieldset>
+                <fieldset class="input-box13">
+                    <legend class="input-box13-label">C4 - Analyse des dessins de définition (pièces, outillages...)</legend>
+                    <div class="radio-group2">
+
+                        <input type="radio" id="C4bonnemaitrise" required name="C4 - Analyse des dessins de définition (pièces, outillages, etc)" value="bonnemaitrise">
+                        <label for="bonnemaitrise">Bonne maîtrise</label>
+
+                        <input type="radio" id="C4bonneacquisition" required name="C4 - Analyse des dessins de définition (pièces, outillages, etc)" value="bonneacqusition">
+                        <label for="bonneacquisition">Bonne acquisition</label>
+
+                        <input type="radio" id="C4encours" required name="C4 - Analyse des dessins de définition (pièces, outillages, etc)" value="encours">
+                        <label for="encours">En cours d'acquisition</label>
+
+                        <input type="radio" id="C4nonacquis" required name="C4 - Analyse des dessins de définition (pièces, outillages, etc)" value="nonacquis">
+                        <label for="nonacquis">Non acquis</label>
+
+                        <input type="radio" id="C4nonevalue" required name="C4 - Analyse des dessins de définition (pièces, outillages, etc)" value="nonevalue">
+                        <label for="nonevalue">Non évalué</label>
+
+                    </div>
+                </fieldset>
+                <fieldset class="input-box14">
+                    <legend class="input-box14-label">C5 Préparer la réalisation (bureau des méthodes : Gamme, programmation, outils...)</legend>
+                    <div class="radio-group2">
+
+                        <input type="radio" id="C1bonnemaitrise" required name="C5 Préparer la réalisation (bureau des méthodes : Gamme, programmation, outils, etc)" value="bonnemaitrise">
+                        <label for="bonnemaitrise">Bonne maîtrise</label>
+
+                        <input type="radio" id="C1bonneacquisition" required name="C5 Préparer la réalisation (bureau des méthodes : Gamme, programmation, outils, etc)" value="bonneacqusition">
+                        <label for="bonneacquisition">Bonne acquisition</label>
+
+                        <input type="radio" id="C1encours" required name="C5 Préparer la réalisation (bureau des méthodes : Gamme, programmation, outils, etc)" value="encours">
+                        <label for="encours">En cours d'acquisition</label>
+
+                        <input type="radio" id="C1nonacquis" required name="C5 Préparer la réalisation (bureau des méthodes : Gamme, programmation, outils, etc)" value="nonacquis">
+                        <label for="nonacquis">Non acquis</label>
+
+                        <input type="radio" id="C1nonevalue" required name="C5 Préparer la réalisation (bureau des méthodes : Gamme, programmation, outils, etc)" value="nonevalue">
+                        <label for="nonevalue">Non évalué</label>
+
+
+                    </div>
+                </fieldset>
+                <button type="submit" class="btn4">Page suivante</button>
+            </form>
+          </div>
+
+    <script src="verif-connection.js"></script>
+    <script src="verif-connection2.js"></script>
+    <script src="test2.js"></script>
+    <script src="sauvegarde-questionnaire.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-database-compat.js"></script>
+    <script>
+      const firebaseConfig = {
+          apiKey: "AIzaSyASDFQ3PARlE_AUK43jsa5dadcupRFwnrg",
+          authDomain: "websitedb-jc.firebaseapp.com",
+          databaseURL: "https://websitedb-jc-default-rtdb.europe-west1.firebasedatabase.app",
+          projectId: "websitedb-jc",
+          storageBucket: "websitedb-jc.appspot.com",
+          messagingSenderId: "284052306058",
+          appId: "1:284052306058:web:d1a072d0f0972392355573"
+      };
+      firebase.initializeApp(firebaseConfig);
+  </script>
+
+
+    </body>
+
+</html>

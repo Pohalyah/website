@@ -7,3 +7,4 @@ function verifierConnexion() {
         console.log(`Bienvenue, ${utilisateurConnecte.username}`);
     }
 }
+

@@ -42,6 +42,14 @@ function generateStatistics(data) {
         Object.values(forms).forEach(form => {
             for (let [key, value] of Object.entries(form)) {
                
+                if (key === "Bilan" || key === "Appréciation générale" || key === "bilan") {
+                    continue;
+                }
+
+                if (key === "Notation proposée sur 20") {
+                    value = parseInt(value, 10).toString(); 
+                }
+
                 if (key === "Nombre de jours d'absence") {
                     value = parseInt(value, 10).toString(); 
                 }

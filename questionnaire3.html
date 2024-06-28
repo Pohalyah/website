@@ -6,15 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Questionnaire</title>
 
+    
+
 
     <link rel="stylesheet" href="test.css">
 </head>
     <body>
       <h3 class="fullbar-title">Barre de progression</h3>
       <div class="fullbar3">
-        <div class="fillbar3" style="width: 66%;"></div>
+        <div class="fillbar3" style="width: 31%;"></div>
         <header>
-            <h2 class="logo">Questionnaire 3/3</h2>
+            <h2 class="logo">Questionnaire 3/7</h2>
             <nav class="navigation">
                 <a href="homepage.html">Accueil</a>
               <button class="bouton-logout" id="bouton-deconnexion">Déconnexion</button>
@@ -67,7 +69,7 @@
                       <label for="aucune">Aucune</label>
                   </div>
               </fieldset>
-              <button type="submit" class="btn4">Envoyer les réponses</button>
+              <button type="submit" class="btn4">Page suivante</button>
           </form>
           
           </div>
@@ -78,84 +80,20 @@
     <script src="sauvegarde-questionnaire.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.19.1/firebase-database-compat.js"></script>
-
     <script>
         const firebaseConfig = {
-          apiKey: "AIzaSyASDFQ3PARlE_AUK43jsa5dadcupRFwnrg",
-          authDomain: "websitedb-jc.firebaseapp.com",
-          databaseURL: "https://websitedb-jc-default-rtdb.europe-west1.firebasedatabase.app",
-          projectId: "websitedb-jc",
-          storageBucket: "websitedb-jc.appspot.com",
-          messagingSenderId: "284052306058",
-          appId: "1:284052306058:web:d1a072d0f0972392355573",
+            apiKey: "AIzaSyASDFQ3PARlE_AUK43jsa5dadcupRFwnrg",
+            authDomain: "websitedb-jc.firebaseapp.com",
+            databaseURL: "https://websitedb-jc-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "websitedb-jc",
+            storageBucket: "websitedb-jc.appspot.com",
+            messagingSenderId: "284052306058",
+            appId: "1:284052306058:web:d1a072d0f0972392355573"
         };
-      
-        console.log("Initialisation de Firebase");
-    firebase.initializeApp(firebaseConfig);
-    const databaseRef = firebase.database().ref();
-console.log("Database reference created:", databaseRef);
+        firebase.initializeApp(firebaseConfig);
+    </script>
 
-    const database = firebase.database();
-
-    if (!firebase) {
-  console.error("Firebase n'a pas été initialisé correctement");
-} else {
-  console.log("Firebase a été initialisé avec succès");
-}
-
-
-document.getElementById('formulaire1','formulaire2').addEventListener('submit', function(event) {
-  event.preventDefault(); 
-
-  const questionnaireData = {};
-  const formData = new FormData(event.target);
-  formData.forEach((value, key) => {
-    questionnaireData[key] = value;
-
-
-  });
-  console.log("Form data collected:", questionnaireData);
-
-  const newPostRef = database.ref('questionnaires').push();
-  console.log("New post reference created:", newPostRef);
-
-  newPostRef.set(questionnaireData)
-    .then(() => {
-      console.log("Data saved successfully with key:", newPostRef.key);
-      alert('Questionnaire soumis avec succès !');
-
-
-      setTimeout(() => {
-        window.location.href = 'confirmation.html';
-      }, 1000);
-    })
-    .catch((error) => {
-      console.error('Erreur lors de la soumission du questionnaire : ', error);
-    });
-});
-
-
-
-    window.onload = function() {
-      const questionnaireData = JSON.parse(localStorage.getItem('questionnaireData'));
-
-      if (questionnaireData) {
-        Object.keys(questionnaireData).forEach(key => {
-          const input = document.querySelector(`[name="${key}"]`);
-          if (input) {
-            if (input.type === 'radio') {
-              if (input.value === questionnaireData[key]) {
-                input.checked = true;
-              }
-            } else {
-              input.value = questionnaireData[key];
-            }
-          }
-        });
-      }
-    }
-
-      </script>
+    
 
     </body>
 
